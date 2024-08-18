@@ -1,8 +1,6 @@
 ﻿using FramworkTask1.AbstractEntities;
 using FramworkTask1.Entities;
 using FramworkTask1.POM.SwagLabsLoginPage;
-using FramworkTask1.Util;
-using Microsoft.Extensions.Configuration;
 
 namespace FramworkTask1.Tests
 {
@@ -10,21 +8,19 @@ namespace FramworkTask1.Tests
     [Parallelizable(ParallelScope.All)]
     internal class UC_2 : BaseTest
     {
-        [Test]
-        public void Check_LoginErrorMassage_WithoutPassword()
+        [TestCase("SomeUser", "88005553535", "Epic sadface: Password is required")]
+        [TestCase("88005553535", "SomeUser", "Epic sadface: Password is required")]
+        public void Check_LoginErrorMassage_WithoutPassword(string userName, string password, string expectedErrorMassage)
         {
+            Serilog.Log.Information($"Test case {TestContext.CurrentContext.Test.MethodName} was started with params:" +
+                $"\n userName: {userName}\n password: {password}\n expectedErrorMassage: {expectedErrorMassage}");
             //Arrange
             UserEntity? user;
-            string expectedErrorMassage;
 
             //Act
-            _config = new ConfigurationBuilder()
-            .SetBasePath(StringUtils.testsPath)
-            .AddJsonFile("UC_2.json")
-            .Build();
-
-            user = _config.GetSection("TestData").Get<UserEntity>();
-            expectedErrorMassage = "Epic sadface: Password is required";
+            user = new UserEntity();
+            user.Username = userName;
+            user.Password = password;
 
             //Assert
             driver.Navigate().GoToUrl("https://www.saucedemo.com/");

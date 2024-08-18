@@ -3,6 +3,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
+using Serilog;
 
 namespace FramworkTask1.AbstractEntities
 {
@@ -10,7 +11,18 @@ namespace FramworkTask1.AbstractEntities
     {
         protected IWebDriver? driver;
         private IConfiguration _browserConfig;
-        protected IConfiguration? _config;
+
+        [OneTimeSetUp]
+        public void GlobalSetup()
+        {
+            Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console()
+            .WriteTo.File("test-log.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
+            Log.Information("Logger were created");
+        }
 
         [SetUp]
         public void Setup()
@@ -39,6 +51,7 @@ namespace FramworkTask1.AbstractEntities
                 default:
                     throw new ArgumentException($"Unsupported browser: {browser}");
             }
+            Log.Information($"Driver: {driver} where used.");
 
             driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -53,6 +66,14 @@ namespace FramworkTask1.AbstractEntities
                 driver.Dispose();
                 driver = null;
             }
+            Log.Information("Test case where ended");
+        }
+
+        [OneTimeTearDown]
+        public void GlobalTearDown()
+        {
+            Log.Information("Logger were flushed");
+            Log.CloseAndFlush();
         }
     }
 }

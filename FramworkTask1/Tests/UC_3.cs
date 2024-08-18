@@ -9,16 +9,16 @@ namespace FramworkTask1.Tests
     [Parallelizable(ParallelScope.All)]
     internal class UC_3 : BaseTest
     {
-        [Test]
-        public void Check_LoginSuccessfully_WithValidCredentials()
+        [TestCase("Swag Labs")]
+        public void Check_LoginSuccessfully_WithValidCredentials(string expectedLogo)
         {
+            Serilog.Log.Information($"Test case {TestContext.CurrentContext.Test.MethodName} was started with params:" +
+                $"\n expectedLogo: {expectedLogo}\n");
             //Arrange
             UserEntity? user;
-            string expectedLogo;
 
             //Act
             user = new UserEntity();
-            expectedLogo = "Swag Labs";
 
             //Assert
             driver.Navigate().GoToUrl("https://www.saucedemo.com/");

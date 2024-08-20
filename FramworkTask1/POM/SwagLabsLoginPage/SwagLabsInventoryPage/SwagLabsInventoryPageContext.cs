@@ -5,7 +5,7 @@ namespace FramworkTask1.POM.SwagLabsLoginPage.SwagLabsInventoryPage
 {
     internal class SwagLabsInventoryPageContext : AbstractPageContext
     {
-        private SwagLabsInventoryPage swagLabsInventoryPage;
+        private readonly SwagLabsInventoryPage swagLabsInventoryPage;
         public SwagLabsInventoryPageContext(IWebDriver driver)
         {
             this.driver = driver;

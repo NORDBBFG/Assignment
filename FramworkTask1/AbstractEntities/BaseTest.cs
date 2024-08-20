@@ -4,6 +4,7 @@ using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
 using Serilog;
+using FramworkTask1.Util;
 
 namespace FramworkTask1.AbstractEntities
 {
@@ -27,7 +28,7 @@ namespace FramworkTask1.AbstractEntities
         [SetUp]
         public void Setup()
         {
-            var configPath = Path.Combine(Directory.GetCurrentDirectory(), "browserconfig.json");
+            var configPath = Path.Combine(StringUtils.driverConfigPath, "driverConfig.json");
             _browserConfig = new ConfigurationBuilder()
                 .AddJsonFile(configPath)
                 .Build();

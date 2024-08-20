@@ -7,7 +7,7 @@ namespace FramworkTask1.Tests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]
-    internal class UC_3 : BaseTest
+    internal class LoginWithValidCredentials : BaseTest
     {
         [TestCase("Swag Labs")]
         public void Check_LoginSuccessfully_WithValidCredentials(string expectedLogo)
